@@ -1,8 +1,8 @@
-import React from 'react';
-import { useLocalSearchParams } from 'expo-router';
-import { useQuery } from '@tanstack/react-query';
 import { fetchCustomerById, fetchCustomerProposals } from '@/lib/queries';
+import { useQuery } from '@tanstack/react-query';
+import { useLocalSearchParams } from 'expo-router';
 import { Box, Center, HStack, Heading, Spinner, Text, VStack } from 'native-base';
+import React from 'react';
 
 export default function CustomerDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();

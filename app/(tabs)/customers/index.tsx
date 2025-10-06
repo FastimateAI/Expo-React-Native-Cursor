@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { fetchCustomers } from '@/lib/queries';
-import { Box, Button, Center, FlatList, HStack, Spinner, Text, VStack } from 'native-base';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
+import { Box, Button, Center, HStack, Spinner, Text, VStack } from 'native-base';
+import { FlatList } from 'react-native';
+import React, { useState } from 'react';
 
 const PAGE_SIZE = 20;
 
@@ -13,7 +14,6 @@ export default function CustomersListScreen() {
   const { data, error, isLoading, isFetching } = useQuery({
     queryKey: ['customers', page],
     queryFn: () => fetchCustomers({ page, pageSize: PAGE_SIZE }),
-    keepPreviousData: true,
   });
 
   if (isLoading) {
@@ -25,16 +25,16 @@ export default function CustomersListScreen() {
     );
   }
 
-  if (error || data?.error) {
+  if (error || (data as any)?.error) {
     return (
       <Center flex={1} px={4}>
-        <Text color="red.500" textAlign="center">{data?.error ?? 'Failed to load customers'}</Text>
+        <Text color="red.500" textAlign="center">{(data as any)?.error ?? 'Failed to load customers'}</Text>
       </Center>
     );
   }
 
-  const rows = data?.data?.rows ?? [];
-  const total = data?.data?.total ?? 0;
+  const rows = (data as any)?.data?.rows ?? [];
+  const total = (data as any)?.data?.total ?? 0;
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   return (

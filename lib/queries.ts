@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { supabase } from './db';
 
 export type QueryResult<T> = { data: T | null; error: string | null };
 

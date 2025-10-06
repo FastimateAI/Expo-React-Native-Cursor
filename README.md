@@ -1,50 +1,142 @@
-# Welcome to your Expo app 👋
+# FastimateAI Mobile App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Customer-facing mobile app for FastimateAI built with Expo React Native, TypeScript, and Expo Router.
 
-## Get started
+## Tech Stack
 
-1. Install dependencies
+- **Expo React Native** (latest)
+- **TypeScript**
+- **Expo Router** (file-based routing)
+- **NativeBase** (UI components)
+- **@tanstack/react-query** (data fetching)
+- **@supabase/supabase-js** (backend)
+- **Supabase** (database & auth)
 
-   ```bash
-   npm install
-   ```
+## Features
 
-2. Start the app
+- 🔐 **Authentication** - Supabase Auth with sign-in/sign-up
+- 📊 **Dashboard** - KPIs for customers, proposals, and revenue
+- 👥 **Customers** - Paginated list with details and recent proposals
+- 🏥 **Health Check** - Database connectivity verification
+- 🔒 **Read-Only** - Mobile app has read-only access to data
 
-   ```bash
-   npx expo start
-   ```
+## Environment Setup
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
+### 1. Install Dependencies
 ```bash
-npm run reset-project
+npm install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Environment Variables
 
-## Learn more
+Copy the template and fill in your values:
+```bash
+cp env.template .env
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+Required variables:
+- `EXPO_PUBLIC_SUPABASE_URL` - Supabase project URL
+- `EXPO_PUBLIC_SUPABASE_ANON_KEY` - Supabase anonymous key
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### 3. Environment Switching
 
-## Join the community
+**Staging Environment:**
+```bash
+./scripts/set-env-staging.sh
+npm run start
+```
 
-Join our community of developers creating universal apps.
+**Production Environment:**
+```bash
+# Set EXPO_PUBLIC_ENVIRONMENT=production in .env
+npm run start
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Development
+
+### Start Development Server
+```bash
+npm run start
+```
+
+### Database Operations
+```bash
+# Generate TypeScript types
+npm run db:types
+
+# Apply migrations to staging
+npm run db:push
+
+# Reset database with schema
+npm run db:reset
+```
+
+### Health Check
+The app includes a Health tab that verifies:
+- Database connectivity
+- Environment (staging/production)
+- Basic data access
+
+## Project Structure
+
+```
+app/
+├── (auth)/          # Authentication screens
+├── (tabs)/          # Tab navigation screens
+│   ├── dashboard.tsx    # KPIs dashboard
+│   ├── customers/       # Customer management
+│   └── health.tsx       # Health check
+└── customers/       # Customer details (non-tab)
+
+lib/
+├── auth.tsx         # Auth provider & hooks
+├── db.ts           # Type-safe Supabase client
+└── queries.ts      # Database query helpers
+
+supabase/
+├── migrations/     # Database migrations
+├── schema/         # Schema dumps
+└── seed/          # Seed data
+
+types/
+└── database.types.ts  # Generated TypeScript types
+```
+
+## Backend Migration
+
+This repo includes Supabase backend infrastructure:
+
+- **Migrations** - Versioned database changes
+- **Schema** - Baseline schema from production
+- **Types** - Auto-generated TypeScript types
+- **RLS Policies** - Row-level security for read-only access
+
+See `supabase/README.md` for backend operations.
+
+## Security
+
+- **Read-Only Access** - Mobile app uses anonymous key with RLS policies
+- **No Secrets** - All sensitive keys stored in environment variables
+- **Staging First** - All development targets staging environment
+- **Production Safety** - Never commit production credentials
+
+## Billing Integration
+
+- **Stripe** - Payment processing (staging keys)
+- **RevenueCat** - Subscription management (staging keys)
+
+See `docs/billing-config.md` for configuration details.
+
+## Contributing
+
+1. Make changes in staging environment
+2. Test with Health tab
+3. Commit with clear messages
+4. Never commit secrets or production configs
+
+## Support
+
+For issues or questions, check:
+- Health tab for connectivity issues
+- `supabase/README.md` for backend operations
+- `docs/billing-config.md` for billing setup

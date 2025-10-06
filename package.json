@@ -8,7 +8,12 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "db:types": "./supabase-cli gen types typescript --linked > types/database.types.ts",
+    "db:push": "./supabase-cli db push --linked",
+    "db:reset": "./supabase-cli db reset --linked --schema supabase/schema/schema.sql",
+    "db:start": "./supabase-cli start",
+    "db:stop": "./supabase-cli stop"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",

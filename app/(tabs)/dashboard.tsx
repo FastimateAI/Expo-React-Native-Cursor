@@ -1,7 +1,7 @@
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { getCounts } from '@/lib/queries';
+import { useQuery } from '@tanstack/react-query';
 import { Box, Center, HStack, Spinner, Text, VStack } from 'native-base';
+import React from 'react';
 
 function KpiCard({ label, value }: { label: string; value: string | number }) {
   return (
